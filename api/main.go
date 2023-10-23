@@ -3,8 +3,8 @@ package main
 import (
 	"gort/handlers"
 	"gort/models"
+	"log"
 
-	"github.com/gin-contrib/logger"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,8 +13,12 @@ func main() {
 
 	models.ConnectDB()
 
-	app.GET("/:url", logger.SetLogger(), handlers.ResolveUrlHandler)
-	app.POST("/", logger.SetLogger(), handlers.ShortenUrlHandler)
+	app.Use(gin.Logger())
+	app.Use(gin.Recovery())
+
+	app.GET("/:url", handlers.ResolveUrlHandler)
+	app.POST("/", handlers.ShortenUrlHandler)
 
 	app.Run("localhost:6969")
+	log.Println("Server started.")
 }
