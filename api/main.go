@@ -3,22 +3,22 @@ package main
 import (
 	"gort/handlers"
 	"gort/models"
-	"log"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	app := gin.Default()
+	app.Use(gin.Logger())
 
 	models.ConnectDB()
-
-	app.Use(gin.Logger())
-	app.Use(gin.Recovery())
-
+	app.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "Welcome to the URL Shortener API",
+		})
+	})
 	app.GET("/:url", handlers.ResolveUrlHandler)
 	app.POST("/", handlers.ShortenUrlHandler)
 
-	app.Run("localhost:6969")
-	log.Println("Server started.")
+	app.Run(":6969")
 }

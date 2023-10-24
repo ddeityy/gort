@@ -19,18 +19,15 @@ type URL struct {
 }
 
 func (u *URL) Sanitize() error {
-	if u.LongUrl == os.Getenv("DOMAIN") {
-		return errors.New("Can not shorten self.")
-	}
-
 	cleanUrl := sanitize.URL(u.LongUrl)
 	cleanUrl = strings.Replace(cleanUrl, "http://", "", 1)
 	cleanUrl = strings.Replace(cleanUrl, "https://", "", 1)
 	cleanUrl = strings.Replace(cleanUrl, "www.", "", 1)
 	cleanUrl = strings.Split(cleanUrl, "/")[0]
 	if cleanUrl == os.Getenv("DOMAIN") {
-		return errors.New("Can not shorten self.")
+		return errors.New("can not shorten self")
 	}
-	log.Println("Sanitized long URL.")
+	u.LongUrl = cleanUrl
+	log.Printf("Sanitized long URL: %s", cleanUrl)
 	return nil
 }

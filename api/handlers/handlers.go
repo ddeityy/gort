@@ -23,7 +23,7 @@ func ResolveUrlHandler(c *gin.Context) {
 		return
 	}
 
-	c.Redirect(http.StatusOK, url.LongUrl)
+	c.Redirect(302, url.LongUrl)
 }
 
 func ShortenUrlHandler(c *gin.Context) {
@@ -39,7 +39,7 @@ func ShortenUrlHandler(c *gin.Context) {
 		return
 	}
 
-	url.ShortUrl = "https://" + uuid.NewString()[:6]
+	url.ShortUrl = uuid.NewString()[:6]
 	url.Expiry = time.Second * 60
 
 	models.DB.Create(&url)
