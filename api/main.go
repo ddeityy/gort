@@ -4,21 +4,18 @@ import (
 	"gort/handlers"
 	"gort/models"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	app := gin.Default()
 	app.Use(gin.Logger())
+	app.Use(cors.Default())
 
 	models.ConnectDB()
-	app.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Welcome to the URL Shortener API",
-		})
-	})
-	app.GET("/:url", handlers.ResolveUrlHandler)
-	app.POST("/", handlers.ShortenUrlHandler)
+	app.GET("/:url", handlers.ResolveUrl)
+	app.POST("/", handlers.ShortenUrl)
 
 	app.Run(":6969")
 }
