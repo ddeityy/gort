@@ -9,13 +9,13 @@ import (
 	"github.com/google/uuid"
 )
 
-type response struct {
-	models.URL      `json:"url"`
-	XRateRemaining  int           `json:"rate_limit"`
-	XRateLimitReset time.Duration `json:"rate_limit_reset"`
-}
+// type response struct {
+// 	models.URL      `json:"url"`
+// 	XRateRemaining  int           `json:"rate_limit"`
+// 	XRateLimitReset time.Duration `json:"rate_limit_reset"`
+// }
 
-func ResolveUrlHandler(c *gin.Context) {
+func ResolveUrl(c *gin.Context) {
 	var url models.URL
 
 	if err := models.DB.Where("short_url = ?", c.Param("url")).First(&url).Error; err != nil {
@@ -26,7 +26,7 @@ func ResolveUrlHandler(c *gin.Context) {
 	c.Redirect(302, url.LongUrl)
 }
 
-func ShortenUrlHandler(c *gin.Context) {
+func ShortenUrl(c *gin.Context) {
 	var url models.URL
 
 	if err := c.ShouldBindJSON(&url); err != nil {

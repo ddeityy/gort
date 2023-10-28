@@ -23,8 +23,8 @@ func (u *URL) Sanitize() error {
 	cleanUrl = strings.Replace(cleanUrl, "http://", "", 1)
 	cleanUrl = strings.Replace(cleanUrl, "https://", "", 1)
 	cleanUrl = strings.Replace(cleanUrl, "www.", "", 1)
-	cleanUrl = strings.Split(cleanUrl, "/")[0]
-	if cleanUrl == os.Getenv("DOMAIN") {
+	domain := strings.Split(cleanUrl, "/")[0]
+	if domain == os.Getenv("DOMAIN") {
 		return errors.New("can not shorten self")
 	}
 	u.LongUrl = cleanUrl
