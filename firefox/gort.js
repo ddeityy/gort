@@ -21,7 +21,11 @@ const shorten = async () => {
     });
 
     const result = await response.json();
-    console.log("Success:", result);
+    if (!response.ok) {
+      console.error("Error:", response);
+    } else {
+      console.log("Success:", result);
+    }
   } catch (error) {
     console.error("Error:", error);
   }
